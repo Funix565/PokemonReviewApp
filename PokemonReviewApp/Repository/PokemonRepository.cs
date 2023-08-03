@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using PokemonReviewApp.Data;
+using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
 
@@ -40,6 +41,13 @@ namespace PokemonReviewApp.Repository
         public ICollection<Pokemon> GetPokemons()
         {
             return _context.Pokemon.OrderBy(p => p.Id).ToList();
+        }
+
+        public Pokemon GetPokemonTrimToUpper(PokemonDto pokemonCreate)
+        {
+            return GetPokemons()
+                .Where(p => p.Name.Trim().ToUpper() == pokemonCreate.Name.TrimEnd().ToUpper())
+                .FirstOrDefault();
         }
 
         public bool PokemonExists(int pokeId)
